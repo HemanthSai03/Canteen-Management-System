@@ -1,22 +1,22 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Signup from './components/Signup';
 import Login from './components/Login';
-import Dashboard from './components/Dashboard';
+import UserDashboard from './components/UserDashboard';
+import AdminDashboard from './components/AdminDashboard';
 
-function App() {
+const App = () => {
   return (
     <Router>
-      <div>
-        <Routes>
-          <Route path="/" element={<Signup />} />  {/* Redirects to Login */}
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={<Signup />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/user-dashboard" element={<UserDashboard />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+      </Routes>
     </Router>
   );
-}
+};
 
 export default App;

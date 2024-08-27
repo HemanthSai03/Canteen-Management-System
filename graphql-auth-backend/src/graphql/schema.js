@@ -1,3 +1,4 @@
+// schema.js
 const { buildSchema } = require('graphql');
 
 const schema = buildSchema(`
@@ -5,6 +6,7 @@ const schema = buildSchema(`
     id: ID!
     username: String!
     email: String!
+    role: String!
   }
 
   type AuthData {
@@ -17,14 +19,17 @@ const schema = buildSchema(`
     username: String!
     email: String!
     password: String!
+    role: String!
   }
 
   type RootQuery {
-    login(email: String!, password: String!): AuthData
+    # This is where you define your queries, not mutations
   }
 
   type RootMutation {
     createUser(userInput: UserInput): User
+    updateUser(id: ID!, userInput: UserInput): User
+    login(email: String!, password: String!): AuthData  # Added login to mutations
   }
 
   schema {

@@ -16,6 +16,7 @@ export const LOGIN = gql`
       userId
       token
       tokenExpiration
+      role
     }
   }
 `;

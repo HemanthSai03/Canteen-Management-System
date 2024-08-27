@@ -3,28 +3,25 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-module.exports = (req) => {
+module.exports = (req, res, next) => {
   const authHeader = req.get('Authorization');
   if (!authHeader) {
-    req.isAuth = false;
-    return;
+    return next();
   }
   const token = authHeader.split(' ')[1];
-  if (!token || token === '') {
-    req.isAuth = false;
-    return;
+  if (!token) {
+    return next();
   }
   let decodedToken;
   try {
     decodedToken = jwt.verify(token, process.env.JWT_SECRET);
   } catch (err) {
-    req.isAuth = false;
-    return;
+    return next();
   }
   if (!decodedToken) {
-    req.isAuth = false;
-    return;
+    return next();
   }
-  req.isAuth = true;
   req.userId = decodedToken.userId;
+  req.role = decodedToken.role;
+  next();
 };
