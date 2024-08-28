@@ -1,12 +1,12 @@
-// src/UserDashboard.js
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useCart } from '../CartContext'; // Import the Cart Context
+import { useCart } from '.'; // Import the Cart Context
 import '../components/UserDashboard.css'
+
 
 const UserDashboard = () => {
   const [menuItems, setMenuItems] = useState([]);
-  const { cart, addToCart } = useCart(); // Use Cart Context
+  const [cart, setCart] = useState([]); // State to manage cart items
 
   useEffect(() => {
     fetchMenuItems();
@@ -47,7 +47,8 @@ const UserDashboard = () => {
   };
 
   const handleOrderClick = (item) => {
-    addToCart(item); // Add item to cart context
+    setCart([...cart, item]); // Add item to cart state
+    addToCart(item); // Optional: Call a function to handle cart addition
   };
 
   return (
@@ -80,8 +81,8 @@ const UserDashboard = () => {
             <p>No menu items available</p>
           )}
         </ul>
-      </main>
-    </div>
+      </main> 
+      </div>
   );
 };
 
