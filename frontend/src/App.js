@@ -11,6 +11,9 @@ import DeleteMenuItem from './components/DeletMenuItem';
 import ContactUs from './components/ContactUs';
 import CartPage from './components/CartPage'; // Import CartPage
 import { CartProvider } from './CartContext'; // Import CartProvider
+import LandingPage from './components/LandingPage';
+import HomePage from './components/HomePage';
+
 
 const App = () => {
   return (
@@ -29,6 +32,7 @@ const App = () => {
           <Route path="/delete-menu-item/:id" element={<DeleteMenuItem />} />
           <Route path="/cart" element={<CartPage />} /> {/* Add CartPage Route */}
           <Route path="/contact" element={<ContactUs />} />
+          <Route path="/landing" element={<LandingPage />} />
         </Routes>
       </Router>
     </CartProvider>

@@ -1,33 +1,32 @@
 // src/components/Signup.js
 import React, { useState } from 'react';
-import { useMutation, gql } from '@apollo/client';
+import { useMutation } from '@apollo/client';
+import { CREATE_USER } from '../graphql/mutations';
 import { useNavigate } from 'react-router-dom';
-
-// GraphQL mutation for user signup
-const SIGNUP_MUTATION = gql`
-  mutation Signup($username: String!, $email: String!, $password: String!, $role: String!) {
-    createUser(userInput: { username: $username, email: $email, password: $password, role: $role }) {
-      id
-      username
-      email
-      role
-    }
-  }
-`;
 
 const Signup = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('user'); // Default role
-  const [signup, { error }] = useMutation(SIGNUP_MUTATION);
+  const [signup, { error, data }] = useMutation(CREATE_USER);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      await signup({ variables: { username, email, password, role } });
-      navigate('/login');
+      const { data } = await signup({
+        variables: {
+          userInput: { username, email, password, role }
+        }
+      });
+
+      // Check if data returned from mutation is as expected
+      if (data && data.createUser) {
+        console.log('User created:', data.createUser);
+        navigate('/login');
+      }
     } catch (err) {
       console.error('Signup error:', err.message);
     }
