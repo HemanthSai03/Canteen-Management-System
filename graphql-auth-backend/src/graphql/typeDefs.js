@@ -1,7 +1,6 @@
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
-  # The User type represents a user in your application
   type User {
     id: ID!
     username: String!
@@ -9,7 +8,6 @@ const typeDefs = gql`
     role: String!
   }
 
-  # The UserInput type is used for creating and updating users
   input UserInput {
     username: String!
     email: String!
@@ -17,7 +15,6 @@ const typeDefs = gql`
     role: String
   }
 
-  # The AuthData type represents the authentication data returned after login
   type AuthData {
     userId: ID!
     token: String!
@@ -25,21 +22,34 @@ const typeDefs = gql`
     role: String!
   }
 
-  # The Query type contains the read-only operations
-  type Query {
-    # Returns a list of users
-    users: [User]
-    # Authenticates a user and returns the AuthData
-    
+  type MenuItem {
+    id: ID!
+    name: String!
+    description: String!
+    price: Float!
+    category: String!
   }
 
-  # The Mutation type contains the write operations
+  input MenuItemInput {
+    name: String!
+    description: String!
+    price: Float!
+    category: String!
+  }
+
+  type Query {
+    users: [User]
+    menuItems: [MenuItem]
+    menuItem(id: ID!): MenuItem
+  }
+
   type Mutation {
-    # Creates a new user
     createUser(userInput: UserInput!): User
-    # Updates an existing user by ID
     updateUser(id: ID!, userInput: UserInput!): User
     login(email: String!, password: String!): AuthData
+    addMenuItem(menuItemInput: MenuItemInput!): MenuItem
+    updateMenuItem(id: ID!, menuItemInput: MenuItemInput!): MenuItem
+    deleteMenuItem(id: ID!): Boolean
   }
 `;
 

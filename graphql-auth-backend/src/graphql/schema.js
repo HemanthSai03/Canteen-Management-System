@@ -1,4 +1,3 @@
-// schema.js
 const { buildSchema } = require('graphql');
 
 const schema = buildSchema(`
@@ -23,19 +22,44 @@ const schema = buildSchema(`
     role: String!
   }
 
-  type RootQuery {
-    # This is where you define your queries, not mutations
+  type MenuItem {
+    id: ID!
+    name: String!
+    description: String!
+    price: Float!
+    category: String!
   }
 
-  type RootMutation {
-    createUser(userInput: UserInput): User
-    updateUser(id: ID!, userInput: UserInput): User
-    login(email: String!, password: String!): AuthData  # Added login to mutations
+  input MenuItemInput {
+    name: String!
+    description: String!
+    price: Float!
+    category: String!
+  }
+
+  type Query {
+    # User queries
+    users: [User]
+    # Menu item queries
+    menuItems: [MenuItem]
+    menuItem(id: ID!): MenuItem
+  }
+
+  type Mutation {
+    # User mutations
+    createUser(userInput: UserInput!): User
+    updateUser(id: ID!, userInput: UserInput!): User
+    login(email: String!, password: String!): AuthData
+
+    # Menu item mutations
+    addMenuItem(menuItemInput: MenuItemInput!): MenuItem
+    updateMenuItem(id: ID!, menuItemInput: MenuItemInput!): MenuItem
+    deleteMenuItem(id: ID!): Boolean
   }
 
   schema {
-    query: RootQuery
-    mutation: RootMutation
+    query: Query
+    mutation: Mutation
   }
 `);
 
