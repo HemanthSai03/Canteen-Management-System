@@ -1,12 +1,12 @@
+// src/UserDashboard.js
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useCart } from '.'; // Import the Cart Context
-import '../components/UserDashboard.css'
-
+import { useCart } from '../CartContext'; // Import the Cart Context
+import '../components/UserDashboard.css';
 
 const UserDashboard = () => {
   const [menuItems, setMenuItems] = useState([]);
-  const [cart, setCart] = useState([]); // State to manage cart items
+  const { cart, addToCart } = useCart(); // Use Cart Context
 
   useEffect(() => {
     fetchMenuItems();
@@ -17,8 +17,7 @@ const UserDashboard = () => {
       const response = await fetch('http://localhost:4000/graphql', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
-          // 'Authorization': `Bearer ${yourAuthToken}` // Uncomment if using authentication
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           query: `
@@ -31,8 +30,8 @@ const UserDashboard = () => {
                 category
               }
             }
-          `
-        })
+          `,
+        }),
       });
 
       const result = await response.json();
@@ -47,8 +46,8 @@ const UserDashboard = () => {
   };
 
   const handleOrderClick = (item) => {
-    setCart([...cart, item]); // Add item to cart state
-    addToCart(item); // Optional: Call a function to handle cart addition
+    addToCart(item); // Add item to cart context
+    alert(`${item.name} has been added to your cart!`);
   };
 
   return (
@@ -57,8 +56,8 @@ const UserDashboard = () => {
         <h1>User Dashboard</h1>
         <nav>
           <ul>
-            <li><Link to="/user-dashboard">Menu Items</Link></li>
-            <li><Link to="/cart">Go to Cart ({cart.length})</Link></li>
+            <li><Link to="/">Menu Items</Link></li>
+            <li><Link to="/cart">Go to Cart ({cart.length})</Link></li> {/* Show cart item count */}
             <li><Link to="/contact">Contact Us</Link></li>
           </ul>
         </nav>
@@ -81,8 +80,8 @@ const UserDashboard = () => {
             <p>No menu items available</p>
           )}
         </ul>
-      </main> 
-      </div>
+      </main>
+    </div>
   );
 };
 
