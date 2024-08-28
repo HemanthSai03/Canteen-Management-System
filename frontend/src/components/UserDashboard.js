@@ -56,7 +56,7 @@ const UserDashboard = () => {
         <h1>User Dashboard</h1>
         <nav>
           <ul>
-            <li><Link to="/">Menu Items</Link></li>
+            <li><Link to="/user-dashboard">Menu Items</Link></li>
             <li><Link to="/cart">Go to Cart ({cart.length})</Link></li> {/* Show cart item count */}
             <li><Link to="/contact">Contact Us</Link></li>
           </ul>
