@@ -1,14 +1,11 @@
+// src/UserDashboard.js
 import React, { useState, useEffect } from 'react';
-
-// Dummy function to simulate adding item to cart
-const addToCart = (item) => {
-  // This function would ideally interact with a cart context or global state
-  console.log('Added to cart:', item);
-};
+import { Link } from 'react-router-dom';
+import { useCart } from '../CartContext'; // Import the Cart Context
 
 const UserDashboard = () => {
   const [menuItems, setMenuItems] = useState([]);
-  const [cart, setCart] = useState([]); // State to manage cart items
+  const { cart, addToCart } = useCart(); // Use Cart Context
 
   useEffect(() => {
     fetchMenuItems();
@@ -49,14 +46,15 @@ const UserDashboard = () => {
   };
 
   const handleOrderClick = (item) => {
-    setCart([...cart, item]); // Add item to cart state
-    addToCart(item); // Optional: Call a function to handle cart addition
+    addToCart(item); // Add item to cart context
   };
 
   return (
     <div>
       <h1>User Dashboard</h1>
-      
+
+      <Link to="/cart">Go to Cart ({cart.length})</Link>
+
       <h2>Menu Items</h2>
       <ul>
         {menuItems.length > 0 ? (
@@ -71,22 +69,6 @@ const UserDashboard = () => {
           ))
         ) : (
           <p>No menu items available</p>
-        )}
-      </ul>
-
-      <h2>Cart</h2>
-      <ul>
-        {cart.length > 0 ? (
-          cart.map((item, index) => (
-            <li key={index}>
-              <h3>{item.name}</h3>
-              <p>{item.description}</p>
-              <p>Price: ${item.price}</p>
-              <p>Category: {item.category}</p>
-            </li>
-          ))
-        ) : (
-          <p>Cart is empty</p>
         )}
       </ul>
     </div>
