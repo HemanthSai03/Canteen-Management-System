@@ -13,6 +13,7 @@ const schema = buildSchema(`
     userId: ID!
     token: String!
     tokenExpiration: Int!
+    role: String!
   }
 
   input UserInput {

@@ -1,52 +1,63 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { gql } from 'graphql-tag';
-
-// Define the login mutation
-const LOGIN_MUTATION = gql`
-  mutation Login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      userId
-      token
-      tokenExpiration
-      role
-    }
-  }
-`;
+import { LOGIN_MUTATION } from '../graphql/mutations';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [login, { data, loading, error }] = useMutation(LOGIN_MUTATION);
+  const [login, { loading, error }] = useMutation(LOGIN_MUTATION);
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    console.log('Attempting login with:', { email, password });
+
     try {
-      const response = await login({ variables: { email, password } });
-      console.log('Login successful:', response.data);
+      const { data } = await login({ variables: { email, password } });
+      console.log('Login response data:', data);
+
+      const { token, role } = data.login;
+
+      // Store the token in localStorage
+      localStorage.setItem('token', token);
+
+      // Redirect based on user role
+      if (role === 'admin') {
+        navigate('/admin-dashboard');
+      } else {
+        navigate('/user-dashboard');
+      }
     } catch (err) {
       console.error('Login error:', err);
+      // Provide more detailed error feedback
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+    <form onSubmit={handleLogin}>
+      <div>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+          required
+        />
+      </div>
+      <div>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+          required
+        />
+      </div>
       <button type="submit" disabled={loading}>
-        Login
+        {loading ? 'Logging In...' : 'Login'}
       </button>
-      {error && <p>Error: {error.message}</p>}
+      {error && <p style={{ color: 'red' }}>Error: {error.message}</p>}
     </form>
   );
 };
