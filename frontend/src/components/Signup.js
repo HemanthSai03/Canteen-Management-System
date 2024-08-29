@@ -4,6 +4,7 @@ import { useMutation } from '@apollo/client';
 import { CREATE_USER } from '../graphql/mutations';
 import { useNavigate } from 'react-router-dom';
 
+
 const Signup = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');

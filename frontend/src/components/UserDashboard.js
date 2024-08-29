@@ -1,12 +1,14 @@
-// src/UserDashboard.js
+// src/components/UserDashboard.js
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 import { useCart } from '../CartContext'; // Import the Cart Context
 import '../components/UserDashboard.css';
 
 const UserDashboard = () => {
   const [menuItems, setMenuItems] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(''); // State for search query
   const { cart, addToCart } = useCart(); // Use Cart Context
+  const navigate = useNavigate(); // Initialize navigate
 
   useEffect(() => {
     fetchMenuItems();
@@ -50,6 +52,21 @@ const UserDashboard = () => {
     alert(`${item.name} has been added to your cart!`);
   };
 
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value.toLowerCase());
+  };
+
+  const filteredMenuItems = menuItems.filter((item) =>
+    item.name.toLowerCase().includes(searchQuery) ||
+    item.description.toLowerCase().includes(searchQuery) ||
+    item.category.toLowerCase().includes(searchQuery)
+  );
+
+  const handleLogout = () => {
+    localStorage.removeItem('authToken'); // Example: remove token
+    navigate('/login'); // Redirect to login page
+  };
+
   return (
     <div>
       <header className="header">
@@ -59,15 +76,23 @@ const UserDashboard = () => {
             <li><Link to="/user-dashboard">Menu Items</Link></li>
             <li><Link to="/cart">Go to Cart ({cart.length})</Link></li> {/* Show cart item count */}
             <li><Link to="/contact">Contact Us</Link></li>
+            <li><button onClick={handleLogout} className="logout-button">Logout</button></li> {/* Logout button */}
           </ul>
         </nav>
       </header>
 
       <main>
         <h2>Menu Items</h2>
+        <input
+          type="text"
+          placeholder="Search menu items..."
+          value={searchQuery}
+          onChange={handleSearchChange}
+          className="search-bar" // Optional: Add a className for styling
+        />
         <ul>
-          {menuItems.length > 0 ? (
-            menuItems.map((item) => (
+          {filteredMenuItems.length > 0 ? (
+            filteredMenuItems.map((item) => (
               <li key={item.id}>
                 <h3>{item.name}</h3>
                 <p>{item.description}</p>

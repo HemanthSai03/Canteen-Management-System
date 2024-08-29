@@ -13,6 +13,8 @@ import CartPage from './components/CartPage'; // Import CartPage
 import { CartProvider } from './CartContext'; // Import CartProvider
 import LandingPage from './components/LandingPage';
 import HomePage from './components/HomePage';
+// import './styles/allStyles.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const App = () => {
@@ -20,7 +22,7 @@ const App = () => {
     <CartProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<Signup />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/user-dashboard" element={<UserDashboard />} />

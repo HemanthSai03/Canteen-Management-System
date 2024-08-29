@@ -44,3 +44,11 @@
     margin-bottom: 10px;
   }
   
+  .search-bar {
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
