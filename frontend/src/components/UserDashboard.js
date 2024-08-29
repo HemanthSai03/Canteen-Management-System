@@ -1,7 +1,119 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../CartContext'; // Import the Cart Context
-import '../components/UserDashboard.css';
+
+const lightModeStyles = {
+  userDashboard: {
+    fontFamily: 'Arial, sans-serif',
+    lineHeight: 1.6,
+    color: '#fff', // Light text color
+    backgroundColor: '#333', // Dark background color
+    backgroundImage: 'url(https://wallpapers.com/images/hd/paella-dish-with-veggies-on-board-0ey63p78wcip8k67.jpg)', // Background image URL
+    backgroundSize: 'cover', // Cover the entire background
+    backgroundPosition: 'center', // Center the background image
+    minHeight: '100vh', // Ensure the userDashboard covers the full viewport height
+    display: 'flex',
+    flexDirection: 'column',
+    maxWidth: '1200px',
+    margin: '0 auto',
+    padding: '20px',
+  },
+  header: {
+    position: 'fixed', // Make the header stick to the top
+    top: 0,
+    left: 0,
+    right: 0,
+    background: '#000', // Black background color
+    color: '#fff',
+    padding: '10px 20px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    zIndex: 1000, // Ensure the header is above other content
+  },
+  headerTitle: {
+    margin: 0,
+    fontSize: '1.5rem',
+  },
+  navList: {
+    listStyle: 'none',
+    margin: 0,
+    padding: 0,
+    display: 'flex',
+    gap: '10px', // Add space between links
+  },
+  navListItem: {
+    margin: 0, // Remove default margin
+  },
+  navLink: {
+    color: '#fff',
+    textDecoration: 'none',
+    fontWeight: 'bold',
+    fontSize: '1rem', // Decrease font size
+    padding: '5px 10px', // Decrease padding for smaller buttons
+    borderRadius: '5px', // Round the corners
+    backgroundColor: 'rgba(255, 255, 255, 0.2)', // Semi-transparent background
+    transition: 'background-color 0.3s ease', // Smooth transition for hover effect
+  },
+  navLinkHover: {
+    backgroundColor: 'rgba(255, 255, 255, 0.4)', // Change background color on hover
+  },
+  logoutButton: {
+    background: '#f44336',
+    color: '#fff',
+    border: 'none',
+    padding: '5px 10px',
+    cursor: 'pointer',
+    borderRadius: '5px', // Round the corners
+    transition: 'background-color 0.3s ease', // Smooth transition for hover effect
+  },
+  logoutButtonHover: {
+    background: '#d32f2f',
+  },
+  searchFilter: {
+    display: 'flex',
+    alignItems: 'center',
+    margin: '20px 0',
+  },
+  searchBar: {
+    flex: 1,
+    padding: '10px',
+    border: '1px solid #ddd',
+    borderRadius: '4px',
+    marginRight: '10px',
+  },
+  categoryFilter: {
+    padding: '10px',
+    border: '1px solid #ddd',
+    borderRadius: '4px',
+  },
+  menuList: {
+    listStyle: 'none',
+    padding: 0,
+  },
+  menuItem: {
+    border: '1px solid #ddd',
+    borderRadius: '4px',
+    margin: '10px 0',
+    padding: '15px',
+    background: 'transparent', // Transparent background
+  },
+  menuItemTitle: {
+    marginTop: 0,
+  },
+  orderButton: {
+    background: '#4caf50',
+    color: '#fff',
+    border: 'none',
+    padding: '10px 20px',
+    cursor: 'pointer',
+    borderRadius: '4px',
+    transition: 'background-color 0.3s ease', // Smooth transition for hover effect
+  },
+  orderButtonHover: {
+    background: '#388e3c',
+  },
+};
 
 const UserDashboard = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -80,46 +192,73 @@ const UserDashboard = () => {
   const uniqueCategories = ['All', ...new Set(menuItems.map(item => item.category))];
 
   return (
-    <div>
-      <header className="header">
-        <h1>User Dashboard</h1>
+    <div style={lightModeStyles.userDashboard}>
+      <header style={lightModeStyles.header}>
+        <h1 style={lightModeStyles.headerTitle}>User Dashboard</h1>
         <nav>
-          <ul>
-            <li><Link to="/user-dashboard">Menu Items</Link></li>
-            <li><Link to="/cart">Go to Cart ({cart.length})</Link></li> {/* Show cart item count */}
-            <li><Link to="/contact">Contact Us</Link></li>
-            <li><button onClick={handleLogout} className="logout-button">Logout</button></li> {/* Logout button */}
+          <ul style={lightModeStyles.navList}>
+            <li style={lightModeStyles.navListItem}>
+              <Link to="/user-dashboard" style={lightModeStyles.navLink}>Menu Items</Link>
+            </li>
+            <li style={lightModeStyles.navListItem}>
+              <Link to="/cart" style={lightModeStyles.navLink}>Go to Cart ({cart.length})</Link>
+            </li>
+            <li style={lightModeStyles.navListItem}>
+              <Link to="/contact" style={lightModeStyles.navLink}>Contact Us</Link>
+            </li>
+            <li style={lightModeStyles.navListItem}>
+              <button
+                onClick={handleLogout}
+                style={lightModeStyles.logoutButton}
+                onMouseOver={(e) => e.currentTarget.style.background = lightModeStyles.logoutButtonHover.backgroundColor}
+                onMouseOut={(e) => e.currentTarget.style.background = lightModeStyles.logoutButton.background}
+              >
+                Logout
+              </button>
+            </li>
           </ul>
         </nav>
       </header>
 
       <main>
         <h2>Menu Items</h2>
-        <input
-          type="text"
-          placeholder="Search menu items..."
-          value={searchQuery}
-          onChange={handleSearchChange}
-          className="search-bar" // Optional: Add a className for styling
-        />
+        <div style={lightModeStyles.searchFilter}>
+          <input
+            type="text"
+            placeholder="Search menu items..."
+            value={searchQuery}
+            onChange={handleSearchChange}
+            style={lightModeStyles.searchBar}
+          />
+          <select
+            onChange={handleCategoryChange}
+            value={selectedCategory}
+            style={lightModeStyles.categoryFilter}
+          >
+            {uniqueCategories.map((category, index) => (
+              <option key={index} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        <select onChange={handleCategoryChange} value={selectedCategory} className="category-filter">
-          {uniqueCategories.map((category, index) => (
-            <option key={index} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
-
-        <ul>
+        <ul style={lightModeStyles.menuList}>
           {filteredMenuItems.length > 0 ? (
             filteredMenuItems.map((item) => (
-              <li key={item.id}>
-                <h3>{item.name}</h3>
+              <li key={item.id} style={lightModeStyles.menuItem}>
+                <h3 style={lightModeStyles.menuItemTitle}>{item.name}</h3>
                 <p>{item.description}</p>
                 <p>Price: ${item.price}</p>
                 <p>Category: {item.category}</p>
-                <button onClick={() => handleOrderClick(item)}>Order</button>
+                <button
+                  onClick={() => handleOrderClick(item)}
+                  style={lightModeStyles.orderButton}
+                  onMouseOver={(e) => e.currentTarget.style.background = lightModeStyles.orderButtonHover.backgroundColor}
+                  onMouseOut={(e) => e.currentTarget.style.background = lightModeStyles.orderButton.background}
+                >
+                  Order
+                </button>
               </li>
             ))
           ) : (

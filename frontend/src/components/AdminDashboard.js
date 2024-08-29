@@ -18,7 +18,6 @@ const AdminDashboard = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
-           //'Authorization': `Bearer ${process.env.JWT_SECRET}` // Uncomment if using authentication
         },
         body: JSON.stringify({
           query: `
@@ -88,7 +87,6 @@ const AdminDashboard = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
-          // 'Authorization': `Bearer ${yourAuthToken}` // Uncomment if using authentication
         },
         body: JSON.stringify({ query: mutation })
       });
@@ -120,7 +118,6 @@ const AdminDashboard = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
-          // 'Authorization': `Bearer ${yourAuthToken}` // Uncomment if using authentication
         },
         body: JSON.stringify({
           query: `
@@ -152,16 +149,17 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div>
-      <h1>Admin Dashboard</h1>
+    <div style={styles.container}>
+      <h1 style={styles.header}>Admin Dashboard</h1>
       
-      <form onSubmit={handleAddOrUpdate}>
+      <form onSubmit={handleAddOrUpdate} style={styles.form}>
         <input 
           type="text" 
           value={name} 
           onChange={(e) => setName(e.target.value)} 
           placeholder="Name" 
           required 
+          style={styles.input}
         />
         <input 
           type="text" 
@@ -169,6 +167,7 @@ const AdminDashboard = () => {
           onChange={(e) => setDescription(e.target.value)} 
           placeholder="Description" 
           required 
+          style={styles.input}
         />
         <input 
           type="number" 
@@ -176,6 +175,7 @@ const AdminDashboard = () => {
           onChange={(e) => setPrice(e.target.value)} 
           placeholder="Price" 
           required 
+          style={styles.input}
         />
         <input 
           type="text" 
@@ -183,28 +183,131 @@ const AdminDashboard = () => {
           onChange={(e) => setCategory(e.target.value)} 
           placeholder="Category" 
           required 
+          style={styles.input}
         />
-        <button type="submit">
+        <button type="submit" style={styles.submitButton}>
           {editId ? 'Update Menu Item' : 'Add Menu Item'}
         </button>
-        {editId && <button type="button" onClick={clearForm}>Cancel</button>}
+        {editId && <button type="button" onClick={clearForm} style={styles.cancelButton}>Cancel</button>}
       </form>
 
-      <h2>Menu Items</h2>
-      <ul>
+      <h2 style={styles.subHeader}>Menu Items</h2>
+      <ul style={styles.menuList}>
         {menuItems.map((item) => (
-          <li key={item.id}>
-            <h3>{item.name}</h3>
-            <p>{item.description}</p>
-            <p>Price: ${item.price}</p>
-            <p>Category: {item.category}</p>
-            <button onClick={() => handleEdit(item)}>Edit</button>
-            <button onClick={() => handleDelete(item.id)}>Delete</button>
+          <li key={item.id} style={styles.menuItem}>
+            <h3 style={styles.itemName}>{item.name}</h3>
+            <p style={styles.itemDescription}>{item.description}</p>
+            <p style={styles.itemPrice}>Price: ${item.price}</p>
+            <p style={styles.itemCategory}>Category: {item.category}</p>
+            <button onClick={() => handleEdit(item)} style={styles.editButton}>Edit</button>
+            <button onClick={() => handleDelete(item.id)} style={styles.deleteButton}>Delete</button>
           </li>
         ))}
       </ul>
     </div>
   );
+};
+
+const styles = {
+  container: {
+    padding: '20px',
+    fontFamily: 'Arial, sans-serif',
+  },
+  header: {
+    fontSize: '2rem',
+    marginBottom: '20px',
+    textAlign: 'center',
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    maxWidth: '500px',
+    margin: '0 auto',
+  },
+  input: {
+    padding: '10px',
+    marginBottom: '10px',
+    borderRadius: '5px',
+    border: '1px solid #ccc',
+  },
+  submitButton: {
+    backgroundColor: '#28a745', /* Green background */
+    color: '#fff', /* White text */
+    border: 'none',
+    borderRadius: '5px',
+    padding: '10px',
+    cursor: 'pointer',
+    fontSize: '1rem',
+    fontWeight: 'bold',
+    transition: 'background-color 0.3s ease, transform 0.2s ease',
+    marginBottom: '10px',
+  },
+  cancelButton: {
+    backgroundColor: '#6c757d', /* Gray background */
+    color: '#fff', /* White text */
+    border: 'none',
+    borderRadius: '5px',
+    padding: '10px',
+    cursor: 'pointer',
+    fontSize: '1rem',
+    fontWeight: 'bold',
+    transition: 'background-color 0.3s ease',
+  },
+  subHeader: {
+    fontSize: '1.5rem',
+    marginBottom: '10px',
+    textAlign: 'center',
+  },
+  menuList: {
+    listStyle: 'none',
+    padding: 0,
+  },
+  menuItem: {
+    border: '1px solid #ddd',
+    borderRadius: '5px',
+    padding: '15px',
+    marginBottom: '10px',
+    backgroundColor: '#f9f9f9',
+  },
+  itemName: {
+    fontSize: '1.25rem',
+    margin: '0 0 10px 0',
+  },
+  itemDescription: {
+    fontSize: '1rem',
+    margin: '0 0 10px 0',
+  },
+  itemPrice: {
+    fontSize: '1rem',
+    margin: '0 0 10px 0',
+  },
+  itemCategory: {
+    fontSize: '1rem',
+    margin: '0 0 10px 0',
+  },
+  editButton: {
+    backgroundColor: '#007bff', /* Blue background */
+    color: '#fff', /* White text */
+    border: 'none',
+    borderRadius: '5px',
+    padding: '10px',
+    cursor: 'pointer',
+    fontSize: '0.875rem',
+    fontWeight: 'bold',
+    marginRight: '5px',
+    transition: 'background-color 0.3s ease',
+  },
+  deleteButton: {
+    backgroundColor: '#dc3545', /* Red background */
+    color: '#fff', /* White text */
+    border: 'none',
+    borderRadius: '5px',
+    padding: '10px',
+    cursor: 'pointer',
+    fontSize: '0.875rem',
+    fontWeight: 'bold',
+    transition: 'background-color 0.3s ease',
+  },
 };
 
 export default AdminDashboard;
