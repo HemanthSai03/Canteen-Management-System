@@ -1,14 +1,14 @@
-// src/components/UserDashboard.js
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import { useCart } from '../CartContext'; // Import the Cart Context
 import '../components/UserDashboard.css';
 
 const UserDashboard = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState(''); // State for search query
+  const [selectedCategory, setSelectedCategory] = useState('All'); // State for selected category
   const { cart, addToCart } = useCart(); // Use Cart Context
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate(); // For navigation after logout
 
   useEffect(() => {
     fetchMenuItems();
@@ -56,16 +56,28 @@ const UserDashboard = () => {
     setSearchQuery(e.target.value.toLowerCase());
   };
 
-  const filteredMenuItems = menuItems.filter((item) =>
-    item.name.toLowerCase().includes(searchQuery) ||
-    item.description.toLowerCase().includes(searchQuery) ||
-    item.category.toLowerCase().includes(searchQuery)
-  );
+  const handleCategoryChange = (e) => {
+    setSelectedCategory(e.target.value);
+  };
 
   const handleLogout = () => {
-    localStorage.removeItem('authToken'); // Example: remove token
-    navigate('/login'); // Redirect to login page
+    // Clear any authentication-related information, such as tokens
+    localStorage.removeItem('authToken');
+    // Redirect to login page or home page
+    navigate('/login');
   };
+
+  const filteredMenuItems = menuItems
+    .filter((item) =>
+      item.name.toLowerCase().includes(searchQuery) ||
+      item.description.toLowerCase().includes(searchQuery) ||
+      item.category.toLowerCase().includes(searchQuery)
+    )
+    .filter((item) =>
+      selectedCategory === 'All' ? true : item.category === selectedCategory
+    );
+
+  const uniqueCategories = ['All', ...new Set(menuItems.map(item => item.category))];
 
   return (
     <div>
@@ -90,6 +102,15 @@ const UserDashboard = () => {
           onChange={handleSearchChange}
           className="search-bar" // Optional: Add a className for styling
         />
+
+        <select onChange={handleCategoryChange} value={selectedCategory} className="category-filter">
+          {uniqueCategories.map((category, index) => (
+            <option key={index} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
+
         <ul>
           {filteredMenuItems.length > 0 ? (
             filteredMenuItems.map((item) => (
