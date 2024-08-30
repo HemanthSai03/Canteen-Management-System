@@ -1,49 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard = () => {
-  const [menuItems, setMenuItems] = useState([]);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [category, setCategory] = useState('');
   const [editId, setEditId] = useState(null);
-
-  useEffect(() => {
-    fetchMenuItems();
-  }, []);
-
-  const fetchMenuItems = async () => {
-    try {
-      const response = await fetch('http://localhost:4000/graphql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          query: `
-            query {
-              menuItems {
-                id
-                name
-                description
-                price
-                category
-              }
-            }
-          `
-        })
-      });
-
-      const result = await response.json();
-      if (result.errors) {
-        console.error('Error fetching menu items:', result.errors);
-      } else {
-        setMenuItems(result.data.menuItems);
-      }
-    } catch (err) {
-      console.error('Network error fetching menu items:', err);
-    }
-  };
+  const navigate = useNavigate(); // Use useNavigate for navigation
 
   const handleAddOrUpdate = async (e) => {
     e.preventDefault();
@@ -86,9 +50,9 @@ const AdminDashboard = () => {
       const response = await fetch('http://localhost:4000/graphql', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ query: mutation })
+        body: JSON.stringify({ query: mutation }),
       });
 
       const result = await response.json();
@@ -96,7 +60,6 @@ const AdminDashboard = () => {
         console.error('Error adding/updating menu item:', result.errors);
       } else {
         console.log('Menu item processed:', result.data);
-        fetchMenuItems(); // Refresh the menu items list after operation
         clearForm(); // Clear form fields
       }
     } catch (err) {
@@ -117,15 +80,15 @@ const AdminDashboard = () => {
       const response = await fetch('http://localhost:4000/graphql', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           query: `
             mutation {
               deleteMenuItem(id: "${id}")
             }
-          `
-        })
+          `,
+        }),
       });
 
       const result = await response.json();
@@ -133,7 +96,6 @@ const AdminDashboard = () => {
         console.error('Error deleting menu item:', result.errors);
       } else {
         console.log('Menu item deleted');
-        fetchMenuItems(); // Refresh the menu items list after deletion
       }
     } catch (err) {
       console.error('Network error deleting menu item:', err);
@@ -148,9 +110,42 @@ const AdminDashboard = () => {
     setEditId(null);
   };
 
+  const handleLogout = () => {
+    // Implement logout functionality here, e.g., clear tokens, redirect to login page
+    console.log('User logged out');
+    // Example: redirect to login page
+    window.location.href = '/login';
+  };
+
+  const navigateToManageMenuItems = () => {
+    navigate('/manage-menu-items'); // Navigate to ManageMenuItems page
+  };
+
+  const navigateToViewMenuItems = () => {
+    navigate('/view-menu-items'); // Navigate to ViewMenuItems page
+  };
+
   return (
-    <div style={styles.container}>
-      <h1 style={styles.header}>Admin Dashboard</h1>
+    
+    <div style={styles.userDashboard}>
+    <h2>Dash Board</h2>
+      <header style={styles.headerContainer}>
+        <h1 style={styles.header}>Admin Dashboard</h1>
+        <div style={styles.headerButtons}>
+          <button onClick={navigateToManageMenuItems} style={styles.manageButton}>
+            Manage Menu Items
+          </button>
+          <button onClick={navigateToViewMenuItems} style={styles.viewButton}>
+            View Menu Items
+          </button>
+          <button onClick={handleLogout} style={styles.logoutButton}>Logout</button>
+        </div>
+      </header>
+      <main style={styles.main}>
+        <h2>Welcome To canteen Management</h2>
+        <p>This is your dashboard. You can add your menu items here</p>
+        <h1>Add Menu Items Here</h1>
+      </main>
       
       <form onSubmit={handleAddOrUpdate} style={styles.form}>
         <input 
@@ -191,32 +186,60 @@ const AdminDashboard = () => {
         {editId && <button type="button" onClick={clearForm} style={styles.cancelButton}>Cancel</button>}
       </form>
 
-      <h2 style={styles.subHeader}>Menu Items</h2>
-      <ul style={styles.menuList}>
-        {menuItems.map((item) => (
-          <li key={item.id} style={styles.menuItem}>
-            <h3 style={styles.itemName}>{item.name}</h3>
-            <p style={styles.itemDescription}>{item.description}</p>
-            <p style={styles.itemPrice}>Price: ${item.price}</p>
-            <p style={styles.itemCategory}>Category: {item.category}</p>
-            <button onClick={() => handleEdit(item)} style={styles.editButton}>Edit</button>
-            <button onClick={() => handleDelete(item.id)} style={styles.deleteButton}>Delete</button>
-          </li>
-        ))}
-      </ul>
+      
     </div>
   );
 };
 
 const styles = {
-  container: {
-    padding: '20px',
+  userDashboard: {
     fontFamily: 'Arial, sans-serif',
+    lineHeight: 1.6,
+    color: '#fff',
+    backgroundColor: '#333',
+    backgroundImage: 'url(https://wallpapers.com/images/hd/paella-dish-with-veggies-on-board-0ey63p78wcip8k67.jpg)',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    minHeight: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    maxWidth: '1200px',
+    margin: '0 auto',
+    padding: '20px',
+  },
+  headerContainer: {
+    position: 'fixed', // Fix the header at the top
+    top: 0,
+    left: 0,
+    right: 0,
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#000', // Header color
+    padding: '20px',
+    borderRadius: '0 0 5px 5px', // Rounded corners at the bottom
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+    zIndex: 1000, // Ensure header is above other content
   },
   header: {
     fontSize: '2rem',
-    marginBottom: '20px',
-    textAlign: 'center',
+    margin: 0, // Remove default margin
+  },
+  headerButtons: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: '10px', // Space between buttons
+    marginLeft: 'auto', // Push buttons to the right
+  },
+  logoutButton: {
+    backgroundColor: 'transparent',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    padding: '10px 20px',
+    cursor: 'pointer',
+    fontSize: '1rem',
+    transition: 'background-color 0.3s ease',
   },
   form: {
     display: 'flex',
@@ -231,8 +254,8 @@ const styles = {
     border: '1px solid #ccc',
   },
   submitButton: {
-    backgroundColor: '#28a745', /* Green background */
-    color: '#fff', /* White text */
+    backgroundColor: '#28a745',
+    color: '#fff',
     border: 'none',
     borderRadius: '5px',
     padding: '10px',
@@ -243,8 +266,8 @@ const styles = {
     marginBottom: '10px',
   },
   cancelButton: {
-    backgroundColor: '#6c757d', /* Gray background */
-    color: '#fff', /* White text */
+    backgroundColor: '#6c757d',
+    color: '#fff',
     border: 'none',
     borderRadius: '5px',
     padding: '10px',
@@ -253,60 +276,23 @@ const styles = {
     fontWeight: 'bold',
     transition: 'background-color 0.3s ease',
   },
-  subHeader: {
-    fontSize: '1.5rem',
-    marginBottom: '10px',
-    textAlign: 'center',
-  },
-  menuList: {
-    listStyle: 'none',
-    padding: 0,
-  },
-  menuItem: {
-    border: '1px solid #ddd',
-    borderRadius: '5px',
-    padding: '15px',
-    marginBottom: '10px',
-    backgroundColor: '#f9f9f9',
-  },
-  itemName: {
-    fontSize: '1.25rem',
-    margin: '0 0 10px 0',
-  },
-  itemDescription: {
-    fontSize: '1rem',
-    margin: '0 0 10px 0',
-  },
-  itemPrice: {
-    fontSize: '1rem',
-    margin: '0 0 10px 0',
-  },
-  itemCategory: {
-    fontSize: '1rem',
-    margin: '0 0 10px 0',
-  },
-  editButton: {
-    backgroundColor: '#007bff', /* Blue background */
-    color: '#fff', /* White text */
+  manageButton: {
+    backgroundColor: 'transparent',
+    color: '#fff',
     border: 'none',
     borderRadius: '5px',
     padding: '10px',
     cursor: 'pointer',
-    fontSize: '0.875rem',
-    fontWeight: 'bold',
-    marginRight: '5px',
-    transition: 'background-color 0.3s ease',
+    fontSize: '1rem',
   },
-  deleteButton: {
-    backgroundColor: '#dc3545', /* Red background */
-    color: '#fff', /* White text */
+  viewButton: {
+    backgroundColor: 'transparent',
+    color: '#fff',
     border: 'none',
     borderRadius: '5px',
     padding: '10px',
     cursor: 'pointer',
-    fontSize: '0.875rem',
-    fontWeight: 'bold',
-    transition: 'background-color 0.3s ease',
+    fontSize: '1rem',
   },
 };
 

@@ -13,8 +13,11 @@ import CartPage from './components/CartPage'; // Import CartPage
 import { CartProvider } from './CartContext'; // Import CartProvider
 import LandingPage from './components/LandingPage';
 import HomePage from './components/HomePage';
+import ManageMenuItems from './components/ManageMenuItems';
+import EditMenuItem from './components/EditMenuItem';
+import ViewMenuItems from './components/ViewMenuItem';
 // import './styles/allStyles.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const App = () => {
@@ -27,6 +30,9 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/manage-menu-items" element={<ManageMenuItems />} />
+          <Route path="/edit-menu-item/:id" element={<EditMenuItem />} />
+          <Route path="/view-menu-items" element={<ViewMenuItems />} />
           {/* Menu Management Routes */}
           <Route path="/menu-items" element={<MenuItemList />} />
           <Route path="/add-menu-item" element={<AddMenuItem />} />

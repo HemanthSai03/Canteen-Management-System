@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import App from './App';
 // import './styles/allStyles.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { UserProvider } from './UseContext';
 
 
 // Create an instance of ApolloClient
@@ -22,7 +22,9 @@ const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
+    <UserProvider>
       <App />
+      </UserProvider>
     </ApolloProvider>
   </React.StrictMode>
 );

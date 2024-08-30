@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { LOGIN_MUTATION } from '../graphql/mutations';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '../UseContext';
 
 const lightModeStyles = {
   loginPage: {
@@ -85,6 +86,7 @@ const Login = () => {
   const [login, { loading, error }] = useMutation(LOGIN_MUTATION);
   const navigate = useNavigate();
 
+  const {setUser} = useUser()
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -98,6 +100,8 @@ const Login = () => {
 
         // Store the token in localStorage
         localStorage.setItem('token', token);
+
+        setUser({role})
 
         // Redirect based on user role
         if (role === 'admin') {
