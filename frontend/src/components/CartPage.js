@@ -139,7 +139,7 @@ const CartPage = () => {
         <h1 style={lightModeStyles.headerTitle}>Your Cart</h1>
       </header>
       <main>
-      <h2>Cart Items</h2>
+      <h2> Items</h2>
         {cart.length > 0 ? (
           <>
             <ul style={lightModeStyles.list}>

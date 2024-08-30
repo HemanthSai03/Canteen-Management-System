@@ -38,32 +38,32 @@ const resolvers = {
   },
 
   Mutation: {
-    createUser: async (parent, { userInput }, context) => {
+    createUser: async (parent, { userInput }) => {
       const { username, email, password, role } = userInput;
-    
+
       // Validate input fields
-      if (!username || !email || !password || !role) {
-        throw new Error('All fields are required.');
+      if (!username || !email || !password) {
+        throw new Error('Username, email, and password are required.');
       }
-    
+
       try {
         // Check if user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
           throw new Error('User already exists.');
         }
-    
+
         // Hash the password before storing it
         const hashedPassword = await bcrypt.hash(password, 12);
-    
+
         // Create a new user
         const newUser = new User({
           username,
           email,
-          password: hashedPassword, // Store hashed password
-          role: role || 'user', // Default role to 'user' if not provided
+          password: hashedPassword,
+          role: role || 'user',
         });
-    
+
         const savedUser = await newUser.save();
         return savedUser;
       } catch (error) {
@@ -71,7 +71,6 @@ const resolvers = {
         throw new Error('Failed to create user: ' + error.message);
       }
     },
-    
 
     login: async (parent, { email, password }) => {
       try {
@@ -80,28 +79,21 @@ const resolvers = {
         if (!user) {
           throw new Error('User does not exist.');
         }
-    
-        // Hash the incoming password with bcrypt using the same salt rounds
-        const hashedPassword = await bcrypt.hash(password, 12);
-    
-        // Debug: log the hashed password and the stored hashed password
-        console.log('Hashed Password at Login:', hashedPassword);
-        console.log('Stored Hashed Password:', user.password);
-    
-        // Use bcrypt.compare to compare the incoming plain password with the stored hashed password
+
+        // Compare passwords
         const isPasswordValid = await bcrypt.compare(password, user.password);
-    
+
         if (!isPasswordValid) {
           throw new Error('Password is incorrect.');
         }
-    
+
         // Generate a JSON Web Token
         const token = jwt.sign(
           { userId: user.id, email: user.email, role: user.role },
           process.env.JWT_SECRET,
           { expiresIn: '1h' }
         );
-    
+
         // Return token and user info
         return {
           userId: user.id,

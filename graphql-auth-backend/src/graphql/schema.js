@@ -28,6 +28,7 @@ const schema = buildSchema(`
     description: String!
     price: Float!
     category: String!
+    image: String  # Add this line for image field
   }
 
   input MenuItemInput {
@@ -35,6 +36,7 @@ const schema = buildSchema(`
     description: String!
     price: Float!
     category: String!
+    image: String  # Add this line for image field
   }
 
   type Query {

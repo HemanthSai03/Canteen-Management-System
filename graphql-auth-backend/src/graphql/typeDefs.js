@@ -28,6 +28,7 @@ const typeDefs = gql`
     description: String!
     price: Float!
     category: String!
+    imageUrl: String
   }
 
   input MenuItemInput {
@@ -35,6 +36,7 @@ const typeDefs = gql`
     description: String!
     price: Float!
     category: String!
+    imageUrl: String
   }
 
   type Query {

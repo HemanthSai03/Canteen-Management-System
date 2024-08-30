@@ -23,7 +23,12 @@ userSchema.pre('save', async function (next) {
 // Method to compare password
 userSchema.methods.comparePassword = async function (password) {
   try {
-    return await bcrypt.compare(password, this.password);
+    // Compare the provided password with the hashed password in the database
+    const isMatch = await bcrypt.compare(password, this.password);
+    if (!isMatch) {
+      throw new Error('Invalid password');
+    }
+    return isMatch;
   } catch (error) {
     throw new Error('Password comparison failed');
   }

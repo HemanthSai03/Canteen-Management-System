@@ -17,6 +17,9 @@ const menuItemSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  imageUrl: {  // Updated field name to match GraphQL schema
+    type: String, 
+  },
 });
 
 module.exports = mongoose.model('MenuItem', menuItemSchema);
