@@ -7,7 +7,7 @@ const AdminDashboard = () => {
   const [price, setPrice] = useState('');
   const [category, setCategory] = useState('');
   const [editId, setEditId] = useState(null);
-  const navigate = useNavigate(); // Use useNavigate for navigation
+  const navigate = useNavigate();
 
   const handleAddOrUpdate = async (e) => {
     e.preventDefault();
@@ -60,7 +60,7 @@ const AdminDashboard = () => {
         console.error('Error adding/updating menu item:', result.errors);
       } else {
         console.log('Menu item processed:', result.data);
-        clearForm(); // Clear form fields
+        clearForm();
       }
     } catch (err) {
       console.error('Network error adding/updating menu item:', err);
@@ -111,24 +111,22 @@ const AdminDashboard = () => {
   };
 
   const handleLogout = () => {
-    // Implement logout functionality here, e.g., clear tokens, redirect to login page
     console.log('User logged out');
-    // Example: redirect to login page
     window.location.href = '/login';
   };
 
   const navigateToManageMenuItems = () => {
-    navigate('/manage-menu-items'); // Navigate to ManageMenuItems page
+    navigate('/manage-menu-items');
   };
 
   const navigateToViewMenuItems = () => {
-    navigate('/view-menu-items'); // Navigate to ViewMenuItems page
+    navigate('/view-menu-items');
   };
 
   return (
-    
     <div style={styles.userDashboard}>
-    <h2>Dash Board</h2>
+      <h2>Dash Board</h2>
+      <br></br>
       <header style={styles.headerContainer}>
         <h1 style={styles.header}>Admin Dashboard</h1>
         <div style={styles.headerButtons}>
@@ -141,52 +139,54 @@ const AdminDashboard = () => {
           <button onClick={handleLogout} style={styles.logoutButton}>Logout</button>
         </div>
       </header>
+      
       <main style={styles.main}>
-        <h2>Welcome To canteen Management</h2>
-        <p>This is your dashboard. You can add your menu items here</p>
-        <h1>Add Menu Items Here</h1>
+        <h2>Welcome To Canteen Management</h2>
+        <p>This is your dashboard. You can add your menu items here.</p>
       </main>
       
-      <form onSubmit={handleAddOrUpdate} style={styles.form}>
-        <input 
-          type="text" 
-          value={name} 
-          onChange={(e) => setName(e.target.value)} 
-          placeholder="Name" 
-          required 
-          style={styles.input}
-        />
-        <input 
-          type="text" 
-          value={description} 
-          onChange={(e) => setDescription(e.target.value)} 
-          placeholder="Description" 
-          required 
-          style={styles.input}
-        />
-        <input 
-          type="number" 
-          value={price} 
-          onChange={(e) => setPrice(e.target.value)} 
-          placeholder="Price" 
-          required 
-          style={styles.input}
-        />
-        <input 
-          type="text" 
-          value={category} 
-          onChange={(e) => setCategory(e.target.value)} 
-          placeholder="Category" 
-          required 
-          style={styles.input}
-        />
-        <button type="submit" style={styles.submitButton}>
-          {editId ? 'Update Menu Item' : 'Add Menu Item'}
-        </button>
-        {editId && <button type="button" onClick={clearForm} style={styles.cancelButton}>Cancel</button>}
-      </form>
-
-      
+      {/* Container for "Add Menu Items Here" and the form */}
+      <div style={styles.formContainer}>
+        <h1 style={styles.formTitle}>Add Menu Items Here</h1>
+        <form onSubmit={handleAddOrUpdate} style={styles.form}>
+          <input 
+            type="text" 
+            value={name} 
+            onChange={(e) => setName(e.target.value)} 
+            placeholder="Name" 
+            required 
+            style={styles.input}
+          />
+          <input 
+            type="text" 
+            value={description} 
+            onChange={(e) => setDescription(e.target.value)} 
+            placeholder="Description" 
+            required 
+            style={styles.input}
+          />
+          <input 
+            type="number" 
+            value={price} 
+            onChange={(e) => setPrice(e.target.value)} 
+            placeholder="Price" 
+            required 
+            style={styles.input}
+          />
+          <input 
+            type="text" 
+            value={category} 
+            onChange={(e) => setCategory(e.target.value)} 
+            placeholder="Category" 
+            required 
+            style={styles.input}
+          />
+          <button type="submit" style={styles.submitButton}>
+            {editId ? 'Update Menu Item' : 'Add Menu Item'}
+          </button>
+          {editId && <button type="button" onClick={clearForm} style={styles.cancelButton}>Cancel</button>}
+        </form>
+      </div>
     </div>
   );
 };
@@ -208,28 +208,28 @@ const styles = {
     padding: '20px',
   },
   headerContainer: {
-    position: 'fixed', // Fix the header at the top
+    position: 'fixed',
     top: 0,
     left: 0,
     right: 0,
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#000', // Header color
+    backgroundColor: '#000',
     padding: '20px',
-    borderRadius: '0 0 5px 5px', // Rounded corners at the bottom
+    borderRadius: '0 0 5px 5px',
     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-    zIndex: 1000, // Ensure header is above other content
+    zIndex: 1000,
   },
   header: {
     fontSize: '2rem',
-    margin: 0, // Remove default margin
+    margin: 0,
   },
   headerButtons: {
     display: 'flex',
     flexDirection: 'row',
-    gap: '10px', // Space between buttons
-    marginLeft: 'auto', // Push buttons to the right
+    gap: '10px',
+    marginLeft: 'auto',
   },
   logoutButton: {
     backgroundColor: 'transparent',
@@ -241,15 +241,25 @@ const styles = {
     fontSize: '1rem',
     transition: 'background-color 0.3s ease',
   },
+  formContainer: {
+    backgroundColor: 'rgba(0, 0, 0, 0.7)', // Semi-transparent background
+    padding: '20px',
+    borderRadius: '10px',
+    maxWidth: '600px',
+    margin: '50px auto', // Center the form container
+    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)',
+  },
+  formTitle: {
+    textAlign: 'center',
+    marginBottom: '20px',
+  },
   form: {
     display: 'flex',
     flexDirection: 'column',
-    maxWidth: '500px',
-    margin: '0 auto',
+    gap: '10px',
   },
   input: {
     padding: '10px',
-    marginBottom: '10px',
     borderRadius: '5px',
     border: '1px solid #ccc',
   },
@@ -263,7 +273,6 @@ const styles = {
     fontSize: '1rem',
     fontWeight: 'bold',
     transition: 'background-color 0.3s ease, transform 0.2s ease',
-    marginBottom: '10px',
   },
   cancelButton: {
     backgroundColor: '#6c757d',

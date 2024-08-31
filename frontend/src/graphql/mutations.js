@@ -21,3 +21,36 @@ export const CREATE_USER = gql`
     }
   }
 `;
+
+
+export const ADD_MENU_ITEM = gql`
+  mutation AddMenuItem($menuItemInput: MenuItemInput!) {
+    addMenuItem(menuItemInput: $menuItemInput) {
+      id
+      name
+      description
+      price
+      category
+      imageUrl
+    }
+  }
+`;
+
+export const UPDATE_MENU_ITEM = gql`
+  mutation UpdateMenuItem($id: ID!, $menuItemInput: MenuItemInput!) {
+    updateMenuItem(id: $id, menuItemInput: $menuItemInput) {
+      id
+      name
+      description
+      price
+      category
+      imageUrl
+    }
+  }
+`;
+
+export const DELETE_MENU_ITEM = gql`
+  mutation DeleteMenuItem($id: ID!) {
+    deleteMenuItem(id: $id)
+  }
+`;

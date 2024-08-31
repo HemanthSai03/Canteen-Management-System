@@ -61,11 +61,18 @@ const lightModeStyles = {
   list: {
     listStyleType: 'none',
     padding: '0',
+    display: 'flex',
+    flexWrap: 'wrap', // Allow items to wrap to the next line
+    gap: '10px', // Space between items
   },
   item: {
     borderBottom: '1px solid #ddd',
-    padding: '10px 0',
-    background: 'rgba(255, 255, 255, 0.1)', // Transparent background
+    padding: '10px',
+    background: '#ffe4e1', // Pinkish white background
+    color: '#000', // Black text color
+    width: 'calc(33% - 10px)', // Set width to one-third minus gap
+    boxSizing: 'border-box', // Include padding in width
+    marginBottom: '10px', // Add space at the bottom
   },
   itemName: {
     fontSize: '1.2rem',
@@ -133,13 +140,12 @@ const CartPage = () => {
   };
 
   return (
-
     <div style={lightModeStyles.container}>
       <header style={lightModeStyles.header}>
         <h1 style={lightModeStyles.headerTitle}>Your Cart</h1>
       </header>
       <main>
-      <h2> Items</h2>
+        <h2>Items</h2>
         {cart.length > 0 ? (
           <>
             <ul style={lightModeStyles.list}>

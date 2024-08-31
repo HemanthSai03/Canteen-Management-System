@@ -11,6 +11,7 @@ const lightModeStyles = {
     backgroundImage: 'url(https://wallpapers.com/images/hd/paella-dish-with-veggies-on-board-0ey63p78wcip8k67.jpg)', // Background image URL
     backgroundSize: 'cover', // Cover the entire background
     backgroundPosition: 'center', // Center the background image
+    backgroundAttachment: 'fixed', // Keep the background fixed
     minHeight: '100vh', // Ensure the userDashboard covers the full viewport height
     display: 'flex',
     flexDirection: 'column',
@@ -96,7 +97,8 @@ const lightModeStyles = {
     borderRadius: '4px',
     margin: '10px 0',
     padding: '15px',
-    background: 'transparent', // Transparent background
+    background: '#95a5a6', // Whitish pink background for menu items
+    color: '#000', // Set text color to black
   },
   menuItemTitle: {
     marginTop: 0,
@@ -112,6 +114,20 @@ const lightModeStyles = {
   },
   orderButtonHover: {
     background: '#388e3c',
+  },
+  cartItemsContainer: {
+    display: 'flex',
+    flexWrap: 'wrap', // Allow wrapping of items to the next line
+    gap: '15px', // Space between cart items
+  },
+  cartItem: {
+    flex: '1 1 calc(33.333% - 15px)', // Adjust width to fit 3 items per row with gaps
+    boxSizing: 'border-box',
+    border: '1px solid #ddd',
+    borderRadius: '4px',
+    padding: '15px',
+    background: '#fff',
+    color: '#000', // Set text color to black
   },
 };
 
@@ -265,6 +281,8 @@ const UserDashboard = () => {
             <p>No menu items available</p>
           )}
         </ul>
+
+        
       </main>
     </div>
   );

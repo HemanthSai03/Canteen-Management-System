@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FaUserPlus, FaSignInAlt } from 'react-icons/fa'; // Import icons from react-icons
 
 const lightModeStyles = {
   homePage: {
@@ -38,14 +39,15 @@ const lightModeStyles = {
     position: 'fixed', // Fix the container to the left corner
     top: '60px', // Position below the header
     left: '20px',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
-    padding: '20px',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)', // Increase opacity for better readability
+    padding: '30px', // Increase padding for a larger box
     borderRadius: '10px', // Round the corners
-    maxWidth: '300px', // Limit the width of the container
+    maxWidth: '350px', // Increase the width of the container
+    color: '#fff',
   },
   welcomeMessage: {
     marginBottom: '20px',
-    fontSize: '1rem', // Decrease font size
+    fontSize: '1.2rem', // Slightly increase font size
   },
   navList: {
     listStyle: 'none',
@@ -53,7 +55,7 @@ const lightModeStyles = {
     padding: 0,
     display: 'flex',
     flexDirection: 'column', // Stack links vertically
-    gap: '10px', // Add space between links
+    gap: '15px', // Add more space between links
   },
   navListItem: {
     margin: 0, // Remove default margin
@@ -62,11 +64,14 @@ const lightModeStyles = {
     color: '#fff',
     textDecoration: 'none',
     fontWeight: 'bold',
-    fontSize: '1rem', // Decrease font size
-    padding: '5px 10px', // Decrease padding for smaller buttons
+    fontSize: '1.1rem', // Increase font size for buttons
+    padding: '10px 15px', // Increase padding for larger buttons
     borderRadius: '5px', // Round the corners
     backgroundColor: 'rgba(255, 255, 255, 0.2)', // Semi-transparent background
     transition: 'background-color 0.3s ease', // Smooth transition for hover effect
+    display: 'flex',
+    alignItems: 'center', // Align text and icon vertically
+    gap: '10px', // Space between icon and text
   },
   navLinkHover: {
     backgroundColor: 'rgba(255, 255, 255, 0.4)', // Change background color on hover
@@ -88,10 +93,24 @@ const HomePage = () => {
         <nav>
           <ul style={lightModeStyles.navList}>
             <li style={lightModeStyles.navListItem}>
-              <Link to="/signup" style={lightModeStyles.navLink}>Sign Up</Link>
+              <Link 
+                to="/signup" 
+                style={lightModeStyles.navLink} 
+                onMouseOver={(e) => e.currentTarget.style.backgroundColor = lightModeStyles.navLinkHover.backgroundColor}
+                onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'}
+              >
+                <FaUserPlus /> Sign Up
+              </Link>
             </li>
             <li style={lightModeStyles.navListItem}>
-              <Link to="/login" style={lightModeStyles.navLink}>Login</Link>
+              <Link 
+                to="/login" 
+                style={lightModeStyles.navLink} 
+                onMouseOver={(e) => e.currentTarget.style.backgroundColor = lightModeStyles.navLinkHover.backgroundColor}
+                onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'}
+              >
+                <FaSignInAlt /> Login
+              </Link>
             </li>
           </ul>
         </nav>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
 import { LOGIN_MUTATION } from '../graphql/mutations';
 import { useNavigate } from 'react-router-dom';
@@ -45,6 +45,13 @@ const lightModeStyles = {
     padding: '20px',
     borderRadius: '10px', // Round the corners
     maxWidth: '300px', // Limit the width of the container
+    opacity: 0, // Start hidden
+    transform: 'translateY(-50px)', // Start above the viewport
+    transition: 'opacity 0.5s ease, transform 0.5s ease', // Transition properties
+  },
+  formContainerVisible: {
+    opacity: 1, // Fully visible
+    transform: 'translateY(0)', // Move to its final position
   },
   formLabel: {
     marginBottom: '10px',
@@ -85,37 +92,43 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [login, { loading, error }] = useMutation(LOGIN_MUTATION);
   const navigate = useNavigate();
+  const { setUser } = useUser();
 
-  const {setUser} = useUser()
+  const [formVisible, setFormVisible] = useState(false);
+
+  useEffect(() => {
+    // Show the form with a delay
+    const timer = setTimeout(() => {
+      setFormVisible(true);
+    }, 1000); // Delay of 1 second
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const handleLogin = async (e) => {
     e.preventDefault();
-
+  
     try {
-      // Execute the login mutation
       const { data } = await login({ variables: { email, password } });
-      console.log('Login response data:', data);
-
+      
       if (data && data.login) {
         const { token, role } = data.login;
-
-        // Store the token in localStorage
+  
         localStorage.setItem('token', token);
-
-        setUser({role})
-
-        // Redirect based on user role
+        localStorage.setItem('role', role);
+  
+        setUser({ role });
+  
         if (role === 'admin') {
           navigate('/admin-dashboard');
         } else {
-          navigate('/landing'); // Redirect to the LandingPage for users
+          navigate('/landing');
         }
       } else {
-        // Handle the case where data or login field is undefined
         console.error('No login data returned.');
       }
     } catch (err) {
       console.error('Login error:', err);
-      // Display a user-friendly error message
     }
   };
 
@@ -125,7 +138,12 @@ const Login = () => {
         <h1 style={lightModeStyles.headerTitle}>Login</h1>
       </header>
 
-      <div style={lightModeStyles.formContainer}>
+      <div
+        style={{
+          ...lightModeStyles.formContainer,
+          ...(formVisible ? lightModeStyles.formContainerVisible : {}),
+        }}
+      >
         <form onSubmit={handleLogin}>
           <label style={lightModeStyles.formLabel}>
             Email:

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
 import { CREATE_USER } from '../graphql/mutations';
 import { useNavigate } from 'react-router-dom';
@@ -7,12 +7,12 @@ const lightModeStyles = {
   signupPage: {
     fontFamily: 'Arial, sans-serif',
     lineHeight: 1.6,
-    color: '#fff', // Light text color
-    backgroundColor: '#333', // Dark background color
-    backgroundImage: 'url(https://wallpapers.com/images/hd/paella-dish-with-veggies-on-board-0ey63p78wcip8k67.jpg)', // Background image URL
-    backgroundSize: 'cover', // Cover the entire background
-    backgroundPosition: 'center', // Center the background image
-    minHeight: '100vh', // Ensure the signupPage covers the full viewport height
+    color: '#fff',
+    backgroundColor: '#333',
+    backgroundImage: 'url(https://wallpapers.com/images/hd/paella-dish-with-veggies-on-board-0ey63p78wcip8k67.jpg)',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column',
     maxWidth: '1200px',
@@ -20,64 +20,78 @@ const lightModeStyles = {
     padding: '20px',
   },
   header: {
-    position: 'fixed', // Make the header stick to the top
+    position: 'fixed',
     top: 0,
     left: 0,
     right: 0,
-    background: 'transparent', // Remove background color
+    background: 'transparent',
     color: '#fff',
     padding: '10px 20px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    zIndex: 1000, // Ensure the header is above other content
+    zIndex: 1000,
   },
   headerTitle: {
     margin: 0,
     fontSize: '1.5rem',
   },
   formContainer: {
-    position: 'fixed', // Fix the container to the left corner
-    top: '60px', // Position below the header
+    position: 'fixed',
+    top: '60px',
     left: '20px',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     padding: '20px',
-    borderRadius: '10px', // Round the corners
-    maxWidth: '300px', // Limit the width of the container
+    borderRadius: '10px',
+    maxWidth: '300px',
+    transform: 'translateY(-100%)',
+    opacity: 0,
+    transition: 'transform 1s ease, opacity 1s ease',
+  },
+  formContainerVisible: {
+    transform: 'translateY(0)',
+    opacity: 1,
+  },
+  formBox: {
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    padding: '20px',
+    borderRadius: '10px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
   },
   formLabel: {
     marginBottom: '10px',
-    fontSize: '1rem', // Decrease font size
+    fontSize: '1rem',
     display: 'block',
   },
   formInput: {
     marginBottom: '10px',
-    padding: '5px 10px', // Decrease padding for smaller buttons
-    borderRadius: '5px', // Round the corners
-    backgroundColor: 'rgba(255, 255, 255, 0.2)', // Semi-transparent background
+    padding: '5px 10px',
+    borderRadius: '5px',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     border: 'none',
     color: '#fff',
-    fontSize: '1rem', // Decrease font size
+    fontSize: '1rem',
     width: '100%',
   },
   formButton: {
-    padding: '5px 10px', // Decrease padding for smaller buttons
-    borderRadius: '5px', // Round the corners
-    backgroundColor: 'rgba(255, 255, 255, 0.2)', // Semi-transparent background
+    padding: '5px 10px',
+    borderRadius: '5px',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     border: 'none',
     color: '#fff',
-    fontSize: '1rem', // Decrease font size
+    fontSize: '1rem',
     cursor: 'pointer',
-    transition: 'background-color 0.3s ease', // Smooth transition for hover effect
+    transition: 'background-color 0.3s ease',
   },
   formButtonHover: {
-    backgroundColor: 'rgba(255, 255, 255, 0.4)', // Change background color on hover
+    backgroundColor: 'rgba(255, 255, 255, 0.4)',
   },
   errorMessage: {
     color: 'red',
-    fontSize: '1rem', // Decrease font size
+    fontSize: '1rem',
   },
 };
+
 
 const Signup = () => {
   const [username, setUsername] = useState('');
@@ -85,7 +99,17 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('user'); // Default role
   const [signup, { error, data }] = useMutation(CREATE_USER);
+  const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Trigger the animation after a second
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 1000);
+
+    return () => clearTimeout(timer); // Clean up the timer
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -113,7 +137,10 @@ const Signup = () => {
         <h1 style={lightModeStyles.headerTitle}>Signup</h1>
       </header>
 
-      <div style={lightModeStyles.formContainer}>
+      <div style={{ 
+        ...lightModeStyles.formContainer, 
+        ...(isVisible ? lightModeStyles.formContainerVisible : {}) 
+      }}>
         <form onSubmit={handleSubmit}>
           <label style={lightModeStyles.formLabel}>
             Username:
