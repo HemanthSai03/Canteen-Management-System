@@ -155,8 +155,7 @@ const LandingPage = () => {
               style={styles.carouselImage} // Apply the carouselImage style
             />
             <Carousel.Caption>
-              <h3>First slide label</h3>
-              <p>Some representative placeholder content for the first slide.</p>
+              <h3>Samosa</h3>
             </Carousel.Caption>
           </Carousel.Item>
           <Carousel.Item>
@@ -167,8 +166,7 @@ const LandingPage = () => {
               style={styles.carouselImage} // Apply the carouselImage style
             />
             <Carousel.Caption>
-              <h3>Second slide label</h3>
-              <p>Some representative placeholder content for the second slide.</p>
+              <h3>Indian Thali</h3>
             </Carousel.Caption>
           </Carousel.Item>
           <Carousel.Item>
@@ -179,8 +177,7 @@ const LandingPage = () => {
               style={styles.carouselImage} // Apply the carouselImage style
             />
             <Carousel.Caption>
-              <h3>Third slide label</h3>
-              <p>Some representative placeholder content for the third slide.</p>
+              <h3>Burgers</h3>
             </Carousel.Caption>
           </Carousel.Item>
         </Carousel>
