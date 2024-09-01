@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+// Import icons from react-icons
+import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 
 const ManageMenuItems = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -115,7 +117,7 @@ const ManageMenuItems = () => {
       <div style={styles.headerContainer}>
         <h1 style={styles.header}>Manage Menu Items</h1>
         <div style={styles.headerButtons}>
-        <button onClick={handleDashboard} style={styles.dashboardButton}>Admin Dashboard</button>
+          <button onClick={handleDashboard} style={styles.dashboardButton}>Admin Dashboard</button>
           <button onClick={handleManage} style={styles.manageButton}>Manage Menu Items</button>
           <button onClick={handleView} style={styles.viewButton}>View Menu Items</button>
           <button onClick={handleLogout} style={styles.logoutButton}>Logout</button>
@@ -137,8 +139,12 @@ const ManageMenuItems = () => {
               <p style={styles.cardPrice}>${item.price}</p>
               <p style={styles.cardCategory}>{item.category}</p>
               <div style={styles.cardActions}>
-                <button onClick={() => handleEdit(item.id)} style={styles.editButton}>Edit</button>
-                <button onClick={() => handleDelete(item.id)} style={styles.deleteButton}>Delete</button>
+                <button onClick={() => handleEdit(item.id)} style={styles.iconButton}>
+                  <FaEdit style={styles.icon} />
+                </button>
+                <button onClick={() => handleDelete(item.id)} style={styles.iconButton}>
+                  <FaTrashAlt style={styles.icon} />
+                </button>
               </div>
             </div>
           ))}
@@ -155,14 +161,16 @@ const styles = {
     color: '#fff',
     backgroundColor: '#333',
     backgroundImage: 'url(https://wallpapers.com/images/hd/paella-dish-with-veggies-on-board-0ey63p78wcip8k67.jpg)',
-    backgroundSize: 'cover',
+    backgroundSize: 'cover', // Cover the entire viewport
     backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
     minHeight: '100vh',
+    width: '100vw',
+    margin: '0',
+    padding: '20px',
     display: 'flex',
     flexDirection: 'column',
-    maxWidth: '1200px',
-    margin: '0 auto',
-    padding: '20px',
+    alignItems: 'center',
   },
   headerContainer: {
     position: 'fixed', // Fix the header at the top
@@ -278,23 +286,21 @@ const styles = {
     justifyContent: 'center',
     gap: '10px',
   },
-  editButton: {
-    backgroundColor: '#007bff',
-    color: '#fff',
+  iconButton: {
+    backgroundColor: 'transparent',
     border: 'none',
-    borderRadius: '5px',
-    padding: '5px 10px',
     cursor: 'pointer',
-    transition: 'background-color 0.3s ease',
+    padding: '5px',
+  },
+  icon: {
+    fontSize: '1.5rem',
+    color: '#333', // Set icon color here
+  },
+  editButton: {
+    color: '#007bff',
   },
   deleteButton: {
-    backgroundColor: '#dc3545',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    padding: '5px 10px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s ease',
+    color: '#dc3545',
   },
 };
 
