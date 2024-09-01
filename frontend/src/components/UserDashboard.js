@@ -89,28 +89,51 @@ const lightModeStyles = {
     borderRadius: '4px',
   },
   menuList: {
-    listStyle: 'none',
+    display: 'flex',
+    flexWrap: 'wrap', // Allows items to wrap onto the next line
+    gap: '20px', // Add space between the cards
     padding: 0,
+    margin: 0,
+    listStyle: 'none',
   },
-  menuItem: {
+  menuItemCard: {
+    flex: '1 1 calc(33.333% - 20px)', // Adjust width to fit 3 items per row with gaps
+    backgroundColor: 'rgb(255,246,244)',
+    color: '#000',
     border: '1px solid #ddd',
-    borderRadius: '4px',
-    margin: '10px 0',
-    padding: '15px',
-    background: '#95a5a6', // Whitish pink background for menu items
-    color: '#000', // Set text color to black
+    borderRadius: '10px', // Rounded corners for a card-like appearance
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Add subtle shadow for a card effect
+    overflow: 'hidden', // Ensure content doesn't overflow the card
+    display: 'flex',
+    flexDirection: 'column', // Stack content vertically
+    justifyContent: 'space-between', // Distribute space evenly
+    padding: '20px',
   },
   menuItemTitle: {
     marginTop: 0,
+    marginBottom: '10px',
+    fontSize: '1.2rem',
+    fontWeight: 'bold',
+  },
+  menuItemDescription: {
+    fontSize: '0.9rem',
+    marginBottom: '15px',
+    color: '#555',
+  },
+  menuItemPrice: {
+    fontSize: '1rem',
+    fontWeight: 'bold',
+    color: '#333',
   },
   orderButton: {
     background: '#4caf50',
     color: '#fff',
     border: 'none',
-    padding: '10px 20px',
+    padding: '10px',
     cursor: 'pointer',
     borderRadius: '4px',
     transition: 'background-color 0.3s ease', // Smooth transition for hover effect
+    marginTop: 'auto', // Push the button to the bottom
   },
   orderButtonHover: {
     background: '#388e3c',
@@ -226,7 +249,7 @@ const UserDashboard = () => {
               <button
                 onClick={handleLogout}
                 style={lightModeStyles.logoutButton}
-                onMouseOver={(e) => e.currentTarget.style.background = lightModeStyles.logoutButtonHover.backgroundColor}
+                onMouseOver={(e) => e.currentTarget.style.background = lightModeStyles.logoutButtonHover.background}
                 onMouseOut={(e) => e.currentTarget.style.background = lightModeStyles.logoutButton.background}
               >
                 Logout
@@ -262,15 +285,15 @@ const UserDashboard = () => {
         <ul style={lightModeStyles.menuList}>
           {filteredMenuItems.length > 0 ? (
             filteredMenuItems.map((item) => (
-              <li key={item.id} style={lightModeStyles.menuItem}>
+              <li key={item.id} style={lightModeStyles.menuItemCard}>
                 <h3 style={lightModeStyles.menuItemTitle}>{item.name}</h3>
-                <p>{item.description}</p>
-                <p>Price: ${item.price}</p>
+                <p style={lightModeStyles.menuItemDescription}>{item.description}</p>
+                <p style={lightModeStyles.menuItemPrice}>Price: ${item.price}</p>
                 <p>Category: {item.category}</p>
                 <button
                   onClick={() => handleOrderClick(item)}
                   style={lightModeStyles.orderButton}
-                  onMouseOver={(e) => e.currentTarget.style.background = lightModeStyles.orderButtonHover.backgroundColor}
+                  onMouseOver={(e) => e.currentTarget.style.background = lightModeStyles.orderButtonHover.background}
                   onMouseOut={(e) => e.currentTarget.style.background = lightModeStyles.orderButton.background}
                 >
                   Order
@@ -281,8 +304,6 @@ const UserDashboard = () => {
             <p>No menu items available</p>
           )}
         </ul>
-
-        
       </main>
     </div>
   );
