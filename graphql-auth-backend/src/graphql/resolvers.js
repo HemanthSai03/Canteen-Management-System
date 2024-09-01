@@ -1,10 +1,6 @@
-/* This JavaScript code defines a set of resolvers for a GraphQL schema. Resolvers are functions that
-define how to retrieve or mutate data for different fields in a GraphQL query or mutation. */
 const User = require('../models/user');
-const MenuItem = require('../models/menuItem');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
-const bcrypt = require('bcryptjs');
 
 dotenv.config();
 
@@ -55,14 +51,11 @@ const resolvers = {
           throw new Error('User already exists.');
         }
 
-        // Hash the password before storing it
-        const hashedPassword = await bcrypt.hash(password, 12);
-
         // Create a new user
         const newUser = new User({
           username,
           email,
-          password: hashedPassword,
+          password, // Store plaintext password
           role: role || 'user',
         });
 
@@ -83,9 +76,7 @@ const resolvers = {
         }
 
         // Compare passwords
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-
-        if (!isPasswordValid) {
+        if (user.password !== password) {
           throw new Error('Password is incorrect.');
         }
 

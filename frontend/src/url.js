@@ -1,0 +1,1 @@
+export const BASE_URL = 'https://canteen-management-system-a0gl.onrender.com'
