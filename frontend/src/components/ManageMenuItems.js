@@ -3,11 +3,26 @@ import { useNavigate } from 'react-router-dom';
 
 const ManageMenuItems = () => {
   const [menuItems, setMenuItems] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredItems, setFilteredItems] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchMenuItems();
   }, []);
+
+  useEffect(() => {
+    // Filter menu items based on the search query
+    if (searchQuery) {
+      setFilteredItems(
+        menuItems.filter(item =>
+          item.name.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      );
+    } else {
+      setFilteredItems(menuItems);
+    }
+  }, [searchQuery, menuItems]);
 
   const fetchMenuItems = async () => {
     try {
@@ -74,6 +89,10 @@ const ManageMenuItems = () => {
     }
   };
 
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
   const handleManage = () => {
     navigate('/manage-menu-items');
   };
@@ -87,19 +106,31 @@ const ManageMenuItems = () => {
     navigate('/login'); // Redirect to login page
   };
 
+  const handleDashboard = () => {
+    navigate('/admin-dashboard', { state: { itemCount: menuItems.length } });
+  };
+
   return (
     <div style={styles.userDashboard}>
       <div style={styles.headerContainer}>
         <h1 style={styles.header}>Manage Menu Items</h1>
         <div style={styles.headerButtons}>
+        <button onClick={handleDashboard} style={styles.dashboardButton}>Admin Dashboard</button>
           <button onClick={handleManage} style={styles.manageButton}>Manage Menu Items</button>
           <button onClick={handleView} style={styles.viewButton}>View Menu Items</button>
           <button onClick={handleLogout} style={styles.logoutButton}>Logout</button>
         </div>
       </div>
       <div style={styles.content}>
+        <input
+          type="text"
+          placeholder="Search menu items..."
+          value={searchQuery}
+          onChange={handleSearchChange}
+          style={styles.searchBar}
+        />
         <div style={styles.cardContainer}>
-          {menuItems.map(item => (
+          {filteredItems.map(item => (
             <div key={item.id} style={styles.card}>
               <h2 style={styles.cardTitle}>{item.name}</h2>
               <p style={styles.cardDescription}>{item.description}</p>
@@ -157,50 +188,14 @@ const styles = {
     gap: '10px', // Space between buttons
     marginLeft: 'auto', // Push buttons to the right
   },
-  logoutButton: {
+  dashboardButton: {
     backgroundColor: 'transparent',
     color: '#fff',
     border: 'none',
     borderRadius: '5px',
-    padding: '10px 20px',
-    cursor: 'pointer',
-    fontSize: '1rem',
-    transition: 'background-color 0.3s ease',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    maxWidth: '500px',
-    margin: '0 auto',
-  },
-  input: {
-    padding: '10px',
-    marginBottom: '10px',
-    borderRadius: '5px',
-    border: '1px solid #ccc',
-  },
-  submitButton: {
-    backgroundColor: '#28a745',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
     padding: '10px',
     cursor: 'pointer',
     fontSize: '1rem',
-    fontWeight: 'bold',
-    transition: 'background-color 0.3s ease, transform 0.2s ease',
-    marginBottom: '10px',
-  },
-  cancelButton: {
-    backgroundColor: '#6c757d',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    padding: '10px',
-    cursor: 'pointer',
-    fontSize: '1rem',
-    fontWeight: 'bold',
-    transition: 'background-color 0.3s ease',
   },
   manageButton: {
     backgroundColor: 'transparent',
@@ -220,11 +215,30 @@ const styles = {
     cursor: 'pointer',
     fontSize: '1rem',
   },
+  logoutButton: {
+    backgroundColor: 'transparent',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    padding: '10px 20px',
+    cursor: 'pointer',
+    fontSize: '1rem',
+    transition: 'background-color 0.3s ease',
+  },
+  searchBar: {
+    width: '100%',
+    maxWidth: '500px',
+    padding: '10px',
+    margin: '20px 0',
+    borderRadius: '5px',
+    border: '1px solid #ccc',
+    fontSize: '1rem',
+  },
   content: {
     marginTop: '80px', // Adjust content margin to account for fixed header
     display: 'flex',
-    flexWrap: 'wrap',
-    gap: '20px',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   cardContainer: {
     display: 'flex',

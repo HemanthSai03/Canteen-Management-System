@@ -51,8 +51,11 @@ const ViewMenuItems = () => {
   };
 
   const handleLogout = () => {
-    // Handle logout logic here
-    navigate('/login'); // Redirect to login page
+    navigate('/login');
+  };
+
+  const handleDashboard = () => {
+    navigate('/admin-dashboard', { state: { itemCount: menuItems.length } });
   };
 
   return (
@@ -62,6 +65,7 @@ const ViewMenuItems = () => {
         <div style={styles.headerButtons}>
           <button onClick={handleManage} style={styles.manageButton}>Manage Menu Items</button>
           <button onClick={handleView} style={styles.viewButton}>View Menu Items</button>
+          <button onClick={handleDashboard} style={styles.dashboardButton}>Admin Dashboard</button>
           <button onClick={handleLogout} style={styles.logoutButton}>Logout</button>
         </div>
       </div>
@@ -114,38 +118,28 @@ const styles = {
     padding: '20px',
   },
   headerContainer: {
-    position: 'fixed', // Fix the header at the top
+    position: 'fixed',
     top: 0,
     left: 0,
     right: 0,
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#000', // Header color
+    backgroundColor: '#000',
     padding: '20px',
-    borderRadius: '0 0 5px 5px', // Rounded corners at the bottom
+    borderRadius: '0 0 5px 5px',
     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-    zIndex: 1000, // Ensure header is above other content
+    zIndex: 1000,
   },
   header: {
     fontSize: '2rem',
-    margin: 0, // Remove default margin
+    margin: 0,
   },
   headerButtons: {
     display: 'flex',
     flexDirection: 'row',
-    gap: '10px', // Space between buttons
-    marginLeft: 'auto', // Push buttons to the right
-  },
-  logoutButton: {
-    backgroundColor: 'transparent',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    padding: '10px 20px',
-    cursor: 'pointer',
-    fontSize: '1rem',
-    transition: 'background-color 0.3s ease',
+    gap: '10px',
+    marginLeft: 'auto',
   },
   manageButton: {
     backgroundColor: 'transparent',
@@ -165,8 +159,27 @@ const styles = {
     cursor: 'pointer',
     fontSize: '1rem',
   },
+  dashboardButton: {
+    backgroundColor: 'transparent',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    padding: '10px',
+    cursor: 'pointer',
+    fontSize: '1rem',
+  },
+  logoutButton: {
+    backgroundColor: 'transparent',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    padding: '10px 20px',
+    cursor: 'pointer',
+    fontSize: '1rem',
+    transition: 'background-color 0.3s ease',
+  },
   content: {
-    marginTop: '80px', // Adjust content margin to account for fixed header
+    marginTop: '80px',
   },
   table: {
     width: '100%',

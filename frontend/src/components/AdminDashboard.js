@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Carousel from 'react-bootstrap/Carousel';
 
 const AdminDashboard = () => {
   const [name, setName] = useState('');
@@ -7,7 +8,41 @@ const AdminDashboard = () => {
   const [price, setPrice] = useState('');
   const [category, setCategory] = useState('');
   const [editId, setEditId] = useState(null);
+  const [itemCount, setItemCount] = useState(0);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchMenuItemsCount = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/graphql', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            query: `
+              query {
+                menuItems {
+                  id
+                }
+              }
+            `,
+          }),
+        });
+
+        const result = await response.json();
+        if (result.errors) {
+          console.error('Error fetching menu items:', result.errors);
+        } else {
+          setItemCount(result.data.menuItems.length);
+        }
+      } catch (err) {
+        console.error('Network error fetching menu items:', err);
+      }
+    };
+
+    fetchMenuItemsCount();
+  }, []);
 
   const handleAddOrUpdate = async (e) => {
     e.preventDefault();
@@ -61,6 +96,7 @@ const AdminDashboard = () => {
       } else {
         console.log('Menu item processed:', result.data);
         clearForm();
+        setItemCount(editId ? itemCount : itemCount + 1);
       }
     } catch (err) {
       console.error('Network error adding/updating menu item:', err);
@@ -96,6 +132,7 @@ const AdminDashboard = () => {
         console.error('Error deleting menu item:', result.errors);
       } else {
         console.log('Menu item deleted');
+        setItemCount(itemCount - 1);
       }
     } catch (err) {
       console.error('Network error deleting menu item:', err);
@@ -125,8 +162,6 @@ const AdminDashboard = () => {
 
   return (
     <div style={styles.userDashboard}>
-      <h2>Dash Board</h2>
-      <br></br>
       <header style={styles.headerContainer}>
         <h1 style={styles.header}>Admin Dashboard</h1>
         <div style={styles.headerButtons}>
@@ -139,13 +174,57 @@ const AdminDashboard = () => {
           <button onClick={handleLogout} style={styles.logoutButton}>Logout</button>
         </div>
       </header>
-      
+
       <main style={styles.main}>
-        <h2>Welcome To Canteen Management</h2>
-        <p>This is your dashboard. You can add your menu items here.</p>
+        <div style={styles.itemContainer}>
+          <div style={styles.itemBox}>
+            <p style={styles.itemCount}>Total Menu Items: {itemCount}</p>
+          </div>
+          <div style={styles.welcomeMessage}>
+            <h2>Welcome To Canteen Management</h2>
+            <p>This is your dashboard. You can add your menu items here.</p>
+          </div>
+        </div>
+
+        <div style={styles.carouselContainer}>
+          <Carousel style={styles.carousel}>
+            <Carousel.Item>
+              <img
+                className="d-block w-100"
+                src="https://www.avikalp.com/cdn/shop/products/MWZ3176_wallpaper1.jpg?v=1653194773"
+                alt="First slide"
+                style={styles.carouselImage}
+              />
+              <Carousel.Caption>
+                <h3>Canteen Interior</h3>
+              </Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+                className="d-block w-100"
+                src="https://www.hotelierindia.com/public/styles/full_img_sml/public/images/2020/02/11/Cecconi's-Soho-House.jpg?OYxSvFyK"
+                alt="Second slide"
+                style={styles.carouselImage}
+              />
+              <Carousel.Caption>
+                <h3>Canteen Outlet</h3>
+              </Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+                className="d-block w-100"
+                src="https://t3.ftcdn.net/jpg/05/70/58/64/240_F_570586447_Qac4sKftVudy34uwVpPjMMW2xeygNZAO.jpg"
+                alt="Third slide"
+                style={styles.carouselImage}
+              />
+              <Carousel.Caption>
+                <h3>Famous Dish</h3>
+              </Carousel.Caption>
+            </Carousel.Item>
+          </Carousel>
+        </div>
       </main>
-      
-      {/* Container for "Add Menu Items Here" and the form */}
+
       <div style={styles.formContainer}>
         <h1 style={styles.formTitle}>Add Menu Items Here</h1>
         <form onSubmit={handleAddOrUpdate} style={styles.form}>
@@ -195,9 +274,8 @@ const styles = {
   userDashboard: {
     fontFamily: 'Arial, sans-serif',
     lineHeight: 1.6,
-    color: '#fff',
-    backgroundColor: '#333',
-    backgroundImage: 'url(https://wallpapers.com/images/hd/paella-dish-with-veggies-on-board-0ey63p78wcip8k67.jpg)',
+    color: 'black',
+    backgroundColor: 'rgb(174,182,191',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     minHeight: '100vh',
@@ -224,6 +302,7 @@ const styles = {
   header: {
     fontSize: '2rem',
     margin: 0,
+    color: '#fff',
   },
   headerButtons: {
     display: 'flex',
@@ -242,16 +321,17 @@ const styles = {
     transition: 'background-color 0.3s ease',
   },
   formContainer: {
-    backgroundColor: 'rgba(0, 0, 0, 0.7)', // Semi-transparent background
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
     padding: '20px',
     borderRadius: '10px',
     maxWidth: '600px',
-    margin: '50px auto', // Center the form container
+    margin: '50px auto',
     boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)',
   },
   formTitle: {
     textAlign: 'center',
     marginBottom: '20px',
+    color: `white`
   },
   form: {
     display: 'flex',
@@ -302,6 +382,40 @@ const styles = {
     padding: '10px',
     cursor: 'pointer',
     fontSize: '1rem',
+  },
+  main: {
+    marginTop: '80px', // Adjust margin to account for the fixed header
+  },
+  itemContainer: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    gap: '20px',
+    marginBottom: '20px',
+  },
+  itemBox: {
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    padding: '10px 20px',
+    borderRadius: '5px',
+    flex: '1',
+    maxWidth: '250px',
+  },
+  itemCount: {
+    fontSize: '1.2rem',
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  welcomeMessage: {
+    flex: '2',
+  },
+  carouselContainer: {
+    marginTop: '20px',
+  },
+  carousel: {
+    maxWidth: '100%',
+  },
+  carouselImage: {
+    height: '400px', // Adjust height to decrease image size
+    objectFit: 'cover', // Ensure image covers the area without distortion
   },
 };
 
