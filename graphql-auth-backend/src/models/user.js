@@ -1,3 +1,4 @@
+/* This code snippet is defining a Mongoose schema for a menu item in a restaurant application. */
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 

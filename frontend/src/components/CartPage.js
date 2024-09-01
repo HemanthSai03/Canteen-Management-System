@@ -1,3 +1,5 @@
+/* This code snippet is a React component called `CartPage` that represents a shopping cart page.
+Here's a breakdown of what it does: */
 import React, { useState } from 'react';
 import { useCart } from '../CartContext'; // Import the Cart Context
 import PaymentModal from './PaymentModal'; // Import the PaymentModal component

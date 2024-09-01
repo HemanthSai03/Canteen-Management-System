@@ -1,3 +1,5 @@
+/* This code snippet is a React component named `Login` that represents a login page. Here's a
+breakdown of what the code does: */
 import React, { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
 import { LOGIN_MUTATION } from '../graphql/mutations';

@@ -1,3 +1,11 @@
+/**
+ * The `LandingPage` component in React renders a dashboard page with a header, navigation links, a
+ * carousel of images, and a logout button.
+ * @returns The `LandingPage` component is being returned. It consists of a header with navigation
+ * links, a main section welcoming the user, and a carousel displaying images with captions. The
+ * component also includes styles for various elements like the header, navigation links, logout
+ * button, and carousel images.
+ */
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Carousel } from 'react-bootstrap'; // Import Carousel from react-bootstrap

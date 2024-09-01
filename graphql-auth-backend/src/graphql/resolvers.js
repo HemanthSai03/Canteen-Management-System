@@ -1,3 +1,5 @@
+/* This JavaScript code defines a set of resolvers for a GraphQL schema. Resolvers are functions that
+define how to retrieve or mutate data for different fields in a GraphQL query or mutation. */
 const User = require('../models/user');
 const MenuItem = require('../models/menuItem');
 const jwt = require('jsonwebtoken');

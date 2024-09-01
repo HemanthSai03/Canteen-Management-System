@@ -1,3 +1,6 @@
+/* This JavaScript code is defining GraphQL mutation operations using the `gql` function from the
+`@apollo/client` library. Each mutation operation is defined as a constant variable with a specific
+GraphQL query structure. */
 import { gql } from '@apollo/client';
 
 // Define the LOGIN_MUTATION GraphQL mutation

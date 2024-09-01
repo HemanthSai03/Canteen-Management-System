@@ -1,3 +1,5 @@
+/* This code snippet is defining GraphQL queries and mutations using the `gql` function from the
+`@apollo/client` package in JavaScript. Here's a breakdown of what each part is doing: */
 import { gql } from '@apollo/client';
 
 export const GET_MENU_ITEMS = gql`

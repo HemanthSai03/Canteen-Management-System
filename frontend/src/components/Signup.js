@@ -1,3 +1,5 @@
+/* This code snippet is a React component named `Signup` that represents a signup form for users.
+Here's a breakdown of what the code is doing: */
 import React, { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
 import { CREATE_USER } from '../graphql/mutations';

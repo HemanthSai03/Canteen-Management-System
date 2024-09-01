@@ -1,3 +1,12 @@
+/**
+ * The `ManageMenuItems` component in React fetches, displays, filters, edits, and deletes menu items
+ * with corresponding UI elements and functionalities.
+ * @returns The `ManageMenuItems` component is being returned. It contains a user dashboard interface
+ * for managing menu items. The component includes header with navigation buttons, search bar for
+ * filtering menu items, and a list of menu items displayed in cards. Each card includes the item's
+ * name, description, price, category, and edit/delete buttons. The component also includes styling
+ * using inline styles for various elements like header,
+ */
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 // Import icons from react-icons

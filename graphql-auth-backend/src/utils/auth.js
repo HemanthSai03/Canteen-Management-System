@@ -1,3 +1,5 @@
+/* The code snippet provided is setting up a Node.js server using Express and Apollo Server for a
+GraphQL API. Here's a breakdown of what the code is doing: */
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 

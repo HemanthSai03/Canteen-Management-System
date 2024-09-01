@@ -1,3 +1,5 @@
+/* This code snippet is a React component called `MenuItemForm` that allows users to add a new menu
+item. Here's a breakdown of what the code does: */
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { gql } from '@apollo/client';

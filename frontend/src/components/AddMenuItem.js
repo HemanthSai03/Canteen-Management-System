@@ -1,3 +1,11 @@
+/**
+ * The `AddMenuItem` component in React is a form that allows users to add a new menu item with name,
+ * description, price, and category fields.
+ * @returns The `AddMenuItem` component is being returned. It is a form that allows users to input
+ * details of a menu item such as name, description, price, and category. When the form is submitted, a
+ * mutation is executed to add the menu item with the provided details. The form includes input fields
+ * for name, description, price, and category, along with a submit button labeled "Add Item".
+ */
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { ADD_MENU_ITEM } from '../queries';

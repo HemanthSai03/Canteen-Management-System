@@ -1,3 +1,12 @@
+/**
+ * The `ViewMenuItems` component in React fetches and displays a list of menu items, with options to
+ * manage, view, navigate to the admin dashboard, and logout.
+ * @returns The `ViewMenuItems` component is being returned. It is a functional component that displays
+ * a list of menu items fetched from a GraphQL endpoint. The component includes header buttons for
+ * managing menu items, viewing menu items, accessing the admin dashboard, and logging out. The menu
+ * items are displayed in a table format with columns for name, description, price, and category. If
+ * there are no menu items available
+ */
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 

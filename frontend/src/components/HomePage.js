@@ -1,3 +1,5 @@
+/* This JavaScript code snippet defines a React functional component called `HomePage`. The component
+represents a webpage for a Canteen Management system. Here's a breakdown of what the code is doing: */
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaUserPlus, FaSignInAlt, FaUtensils, FaShoppingCart, FaChartPie } from 'react-icons/fa';

@@ -1,3 +1,12 @@
+/**
+ * The `AdminDashboard` component in React manages menu items, allows adding, updating, and deleting
+ * items, displays total item count, and provides navigation options.
+ * @returns The `AdminDashboard` component is being returned. It contains JSX elements for displaying
+ * an admin dashboard interface with features like managing menu items, viewing menu items,
+ * adding/updating menu items, and logging out. The component includes form inputs for adding/updating
+ * menu items, buttons for navigation, a carousel for displaying images, and styling for layout and
+ * design.
+ */
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Carousel from 'react-bootstrap/Carousel';

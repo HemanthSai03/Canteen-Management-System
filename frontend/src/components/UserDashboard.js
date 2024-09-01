@@ -1,3 +1,5 @@
+/* The above code is a React component named `UserDashboard` that represents a user interface for a
+dashboard displaying menu items. Here is a summary of what the code does: */
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../CartContext'; // Import the Cart Context

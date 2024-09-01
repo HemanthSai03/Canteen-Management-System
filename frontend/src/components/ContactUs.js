@@ -1,3 +1,8 @@
+/* This code snippet is a React component named `ContactUs` that represents a contact page layout. It
+defines styles for different elements of the contact page using inline CSS within the
+`contactUsStyles` object. The component includes a header with a fixed position at the top, a main
+content section with contact information displayed in a list format. */
+
 import React from 'react';
 
 const contactUsStyles = {

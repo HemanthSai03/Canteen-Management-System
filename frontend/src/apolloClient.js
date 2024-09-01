@@ -1,3 +1,5 @@
+/* This code snippet is setting up an Apollo Client in a JavaScript environment for making GraphQL
+requests. Here's a breakdown of what it does: */
 import { ApolloClient, InMemoryCache, HttpLink, ApolloLink, from } from '@apollo/client';
 
 // Create an HTTP link that points to your GraphQL server:

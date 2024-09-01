@@ -1,3 +1,5 @@
+/* This code snippet is defining GraphQL type definitions using the Apollo Server library in a Node.js
+environment. */
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`

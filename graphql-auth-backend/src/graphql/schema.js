@@ -1,3 +1,5 @@
+/* This code snippet is defining a GraphQL schema using the `buildSchema` function from the `graphql`
+library in JavaScript. */
 const { buildSchema } = require('graphql');
 
 const schema = buildSchema(`

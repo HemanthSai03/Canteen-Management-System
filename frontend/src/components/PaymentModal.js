@@ -1,3 +1,11 @@
+/**
+ * The `PaymentModal` component in React displays a modal for making payments with options to pay or
+ * close the modal.
+ * @returns The `PaymentModal` component is being returned. It is a functional component that displays
+ * a modal for making a payment. The modal contains a title, a message, a "Pay Now" button that
+ * triggers the `handlePayment` function to redirect to a payment link, and a "Close" button that
+ * triggers the `onClose` function.
+ */
 import React from 'react';
 
 const PaymentModal = ({ onClose }) => {

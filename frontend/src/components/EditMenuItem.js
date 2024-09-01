@@ -1,3 +1,12 @@
+/**
+ * The `EditMenuItem` component in React is used to edit and update menu items with form inputs and
+ * styling.
+ * @returns The `EditMenuItem` component is being returned. This component contains a form for editing
+ * menu item details such as name, description, price, and category. The form includes input fields for
+ * each detail and a submit button to update the menu item. The component also includes styling for the
+ * container, header, form, input fields, and submit button.
+ */
+
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
